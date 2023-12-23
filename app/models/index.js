@@ -23,4 +23,5 @@ db.member = require('./member.model')(sequelize, Sequelize);
 db.major = require('./major.model')(sequelize, Sequelize);
 db.lecturer = require('./lecturer.model')(sequelize, Sequelize);
 db.user = require('./user.model')(sequelize, Sequelize);
+db.document = require('./document.model')(sequelize, Sequelize);
 module.exports = db;
