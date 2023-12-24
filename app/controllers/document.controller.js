@@ -32,3 +32,73 @@ exports.create = (req, res) => {
       });
   };
 
+// READ: menampilkan atau mengambil semua data sesuai model dari database
+exports.findAll = (req, res) => {
+  doc.findAll()
+    .then((document) => {
+      res.json({
+        message: "Document retrieved successfully.",
+        data: document,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving document.",
+        data: null,
+      });
+    });
+};
+
+// UPDATE: Merubah data sesuai dengan id yang dikirimkan sebagai params
+exports.update = (req, res) => {
+  const id = req.params.id;
+  doc.update(req.body, {
+    where: { id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.json({
+          message: "Document updated successfully.",
+          data: req.body,
+        });
+      } else {
+        res.json({
+          message: `Cannot update document with id=${id}. Maybe document was not found or req.body is empty!`,
+          data: req.body,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: err.message || "Some error occurred while updating the document.",
+        data: null,
+      });
+    });
+};
+
+// DELETE: Menghapus data sesuai id yang dikirimkan
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  doc.destroy({
+    where: { id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.json({
+          message: "Document deleted successfully.",
+          data: req.body,
+        });
+      } else {
+        res.json({
+          message: `Cannot delete document with id=${id}. Maybe document was not found!`,
+          data: req.body,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: err.message || "Some error occurred while deleting the document.",
+        data: null,
+      });
+    });
+};
