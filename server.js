@@ -2,10 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const config = require('dotenv');
 const app = express();
-const port = 5500;
+const port = 5501;
 const memberRoute = require('./app/routes/member.routes');
 const majorRoute = require('./app/routes/major.routes');
 const authRoute = require('./app/routes/auth.routes');
+const MemberDataRoute = require('./app/routes/MemberData.routes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,5 +23,6 @@ app.get('/', (req, res) => {
 app.use('/api/member', memberRoute);
 app.use('/api/major', majorRoute);
 app.use('/api', authRoute);
+app.use('/api/MemberData', MemberDataRoute);
 
 app.listen(port, () => console.log(`App listening on port http://localhost:${port}!`));
