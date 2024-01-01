@@ -4,7 +4,6 @@ const config = require('dotenv');
 const app = express();
 const port = 5500;
 const memberRoute = require('./app/routes/member.routes');
-const majorRoute = require('./app/routes/major.routes');
 const authRoute = require('./app/routes/auth.routes');
 
 app.use(express.json());
@@ -20,7 +19,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/member', memberRoute);
-app.use('/api/major', majorRoute);
 app.use('/api', authRoute);
 
 app.listen(port, () => console.log(`App listening on port http://localhost:${port}!`));
