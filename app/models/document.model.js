@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
         writer: {
             type: Sequelize.STRING,
         },
+        description: {
+            type: Sequelize.STRING,
+        },
         status: {
             type: Sequelize.BOOLEAN,
         },

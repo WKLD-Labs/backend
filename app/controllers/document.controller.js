@@ -14,6 +14,8 @@ exports.create = (req, res) => {
     const document = {
       title: req.body.title,
       writer: req.body.writer,
+      description: req.body.descriprion,
+      status:true,
     };
   
     // proses menyimpan kedalam database
