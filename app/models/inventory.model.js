@@ -9,9 +9,6 @@ module.exports = (sequelize, Sequelize) => {
         date: {
             type: Sequelize.DATE,
         },
-        picture: {
-            type: Sequelize.BLOB("long"),
-        },
         description: {
             type: Sequelize.STRING,
         },
