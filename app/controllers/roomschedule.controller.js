@@ -34,7 +34,6 @@ async function checkOverlap(start_date, end_date, excludeId = null) {
     if (excludeId) {
         roomSchedules = roomSchedules.filter(roomSchedule => roomSchedule.dataValues.id !== +excludeId);
     }
-    console.log(roomSchedules)
     return roomSchedules.length > 0;
 }
 
@@ -42,14 +41,17 @@ exports.create = async (req, res) => {
     try {
         const {name, start_date, end_date} = req.body;
         // validate, name, start_date, end_date required, start_date and end_date must be valid date
-        console.log("req body: ", req.body);
         if (!name || !start_date || !end_date) {
             return res.status(400).json({ error: "name, start date, end date are required" });
         }
         if (isNaN(Date.parse(start_date)) || isNaN(Date.parse(end_date))) {
             return res.status(400).json({ error: "start date and end date must be valid date" });
         }
-        // console.log(name, start_date, end_date);
+        // Check to make sure the end_date is not before start_date
+        if (new Date(end_date) < new Date(start_date)) {
+            return res.status(400).json({ error: "end date must be after start date" });
+        }
+
         // Check if this new schedule is not overlapping with existing schedules
         if (await checkOverlap(start_date, end_date)) {
             return res.status(400).json({ error: "Schedule is overlapping with existing schedule" });
@@ -139,6 +141,10 @@ exports.update = async (req, res) => {
         const roomSchedule = await RoomSchedule.findOne({
             where: {id: id}
         });
+        // Check to make sure the end_date is not before start_date
+        if (new Date(end_date) < new Date(start_date)) {
+            return res.status(400).json({ error: "end date must be after start date" });
+        }
         if (await checkOverlap(start_date, end_date, id)) {
             return res.status(400).json({ error: "Schedule is overlapping with existing schedule" });
         }
