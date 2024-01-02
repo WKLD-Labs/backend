@@ -40,7 +40,7 @@ async function checkOverlap(start_date, end_date, excludeId = null) {
 
 exports.create = async (req, res) => {
     try {
-        const {name, start_date, end_date} = req.body;
+        const {name, start_date, end_date, description} = req.body;
         console.log("req body: ", req.body);
         if (!name || !start_date || !end_date) {
             return res.status(400).json({ error: "name, start time, and end time are required" });
@@ -126,7 +126,7 @@ exports.findAll = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const {id} = req.params;
-        const {name, start_date, end_date} = req.body;
+        const {name, start_date, end_date, description} = req.body;
         if (!name || !start_date || !end_date) {
             return res.status(400).json({ error: "name, start time, and end time are required" });
         }
