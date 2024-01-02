@@ -20,8 +20,9 @@ db.sequelize = sequelize;
 
 // define semua models yang ada pada aplikasi
 db.member = require('./member.model')(sequelize, Sequelize);
-db.major = require('./major.model')(sequelize, Sequelize);
 db.lecturer = require('./lecturer.model')(sequelize, Sequelize);
 db.user = require('./user.model')(sequelize, Sequelize);
 db.agenda = require('./agenda.model')(sequelize, Sequelize);
+db.roomschedule = require('./roomschedule.model')(sequelize, Sequelize);
+db.inventory = require('./inventory.model')(sequelize, Sequelize);
 module.exports = db;
