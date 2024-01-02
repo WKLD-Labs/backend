@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
         status: {
             type: Sequelize.BOOLEAN,
         },
+        return: {
+            type: Sequelize.DATEONLY,
+        },
     });
     return Document;
 }

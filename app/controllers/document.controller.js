@@ -14,8 +14,9 @@ exports.create = (req, res) => {
     const document = {
       title: req.body.title,
       writer: req.body.writer,
-      description: req.body.descriprion,
-      status:true,
+      description: req.body.description,
+      status: true,
+      return: null,
     };
   
     // proses menyimpan kedalam database
@@ -49,6 +50,21 @@ exports.findAll = (req, res) => {
         data: null,
       });
     });
+};
+
+// Get a specific member by ID
+exports.findOne = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const document = await doc.findByPk(id);
+      if (document) {
+          res.json(document);
+      } else {
+          res.status(404).json({ message: 'Document not found' });
+      }
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
 };
 
 // UPDATE: Merubah data sesuai dengan id yang dikirimkan sebagai params
