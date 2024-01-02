@@ -3,6 +3,7 @@ const cors = require('cors');
 const config = require('dotenv');
 const app = express();
 const port = 5500;
+const roomScheduleRoute = require('./app/routes/roomschedule.routes');
 const memberRoute = require('./app/routes/member.routes');
 const authRoute = require('./app/routes/auth.routes');
 const inventoryRoute = require('./app/routes/inventory.routes');
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+app.use('/api/roomschedule', roomScheduleRoute);
 app.use('/api/member', memberRoute);
 app.use('/api', authRoute);
 app.use('/api/inventory', inventoryRoute);
