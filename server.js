@@ -11,7 +11,19 @@ app.use(express.json({ limit: '10mb'}));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 const db = require('./app/models');
-db.sequelize.sync();
+const userSeeder = require('./app/seeders/user.seeder');
+db.sequelize.sync().then(async () => {
+    console.log('Database synced successfully');
+
+    try {
+        await userSeeder.seedUsers();
+        console.log('Seeder executed successfully');
+    } catch (error) {
+        console.error('Error running seeder:', error);
+    }
+
+});
+
 
 app.use(cors());
 
@@ -24,4 +36,4 @@ app.use('/api/member', memberRoute);
 app.use('/api', authRoute);
 app.use('/api/inventory', inventoryRoute);
 
-app.listen(port, () => console.log(`App listening on port http://localhost:${port}!`));
+app.listen(port, () => console.log(`App listening on port http://localhost:${port}!`))
