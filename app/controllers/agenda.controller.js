@@ -55,7 +55,8 @@ exports.create = async (req, res) => {
         const newAgenda = await Agenda.create({
             name,
             start_date: new Date(start_date),
-            end_date: new Date(end_date)
+            end_date: new Date(end_date),
+            description,
         });
         return res.status(201).json(newAgenda);
     } catch (e) {
@@ -144,6 +145,7 @@ exports.update = async (req, res) => {
         agenda.name = name;
         agenda.start_date = new Date(start_date);
         agenda.end_date = new Date(end_date);
+        agenda.description = description;
         await agenda.save();
         return res.status(200).json(agenda);
     } catch (e) {
