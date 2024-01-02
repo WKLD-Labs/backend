@@ -1,17 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
     const Inventory = sequelize.define('Jadwal', {
-        eventname: {
+        activity: {
             type: Sequelize.STRING,
         },
-        starttime: {
+        participant: {
             type: Sequelize.DATE,
         },
-        endtime: {
+        time: {
             type: Sequelize.DATE,
         },
-        description: {
+        status: {
             type: Sequelize.TEXT,
         },
+        
         
     });
     return Inventory;

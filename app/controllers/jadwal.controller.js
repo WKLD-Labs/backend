@@ -42,7 +42,7 @@ exports.findOne = async (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Schedule .destroy({
+    Jadwal .destroy({
       where: { id },
     })
       .then((num) => {
@@ -65,49 +65,4 @@ exports.delete = (req, res) => {
         });
       });
   };
-
-// exports.findAll = async (req, res) => {
-//     try {
-//         let roomSchedules;
-//         const {month, year} = req.query;
-//         if (month && year) {
-//             // Find room schedules where the start_date or end_date is in the given month and year
-//             roomSchedules = await RoomSchedule.findAll({
-//                 where: {
-//                     [Op.or]: [
-//                         {
-//                             start_date: {
-//                                 [Op.and]: [
-//                                     {[Op.gte]: new Date(year, month-1, 1)},
-//                                     {[Op.lte]: new Date(year, month, 0)}
-//                                 ]
-//                             }
-//                         },
-//                         {
-//                             end_date: {
-//                                 [Op.and]: [
-//                                     {[Op.gte]: new Date(year, month-1, 1)},
-//                                     {[Op.lte]: new Date(year, month, 0)}
-//                                 ]
-//                             }
-//                         },
-//                         {
-//                             [Op.and]: [
-//                                 {start_date: {[Op.lte]: new Date(`${year}-${month}-01`)}},
-//                                 {end_date: {[Op.gte]: new Date(`${year}-${month}-01`)}}
-//                             ]
-//                         }
-//                     ]
-//                 }
-//             });
-//         } else {
-//             roomSchedules = await RoomSchedule.findAll();
-//         }
-        
-//         return res.status(200).json(roomSchedules);
-//     } catch (e) {
-//         res.status(500).json({ error: e.message });
-//     }
-// }
-
 
