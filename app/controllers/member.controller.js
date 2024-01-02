@@ -1,157 +1,72 @@
 const db = require("../models");
 const Member = db.member;
-const Major = db.major;
 
-// CREATE: untuk enambahkan data kedalam tabel book
+// Create a new member
 exports.create = async (req, res) => {
-  // validate request
-    if (!req.body.nim) {
-        return res.status(400).send({
-            message: "NIM can not be empty",
-        });
-    }
-
-    const foundMajor = await Major.findOne({
-        here: { id: req.body.major},
-    });
-
-    if (!foundMajor) {
-        return res.status(404).json({
-            message: "Major not found. Make sure the major exists in the database.",
-        });
-    }
-
-
-  // daya yang didapatkan dari inputan oleh pengguna
-    const member = {
-        nim: req.body.nim,
-        name: req.body.name,
-        majorId: foundMajor.id,
-    };
-
-  // proses menyimpan kedalam database
-    await Member.create(member)
-    .then((data) => {
-      res.json({
-        message: "Member created successfully.",
-        data: data,
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        message: err.message || "Some error occurred while creating the Member.",
-        data: null,
-      });
-    });
-};
-
-// READ: menampilkan atau mengambil semua data sesuai model dari database
-exports.findAll = (req, res) => {
-    Member.findAll()
-      .then((member) => {
-        res.json({
-          message: "Member retrieved successfully.",
-          data: member,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: err.message || "Some error occurred while retrieving member.",
-          data: null,
-        });
-      });
-  };
-
-// UPDATE: Merubah data sesuai dengan id yang dikirimkan sebagai params 
-exports.update = async (req, res) => {
-    const id = req.params.id;
-    const foundMajor = await Major.findOne({
-            where: { id: req.body.major},
-      });
-    
-    if (!foundMajor) {
-        return res.status(404).json({
-            message: "Major not found. Make sure the major exists in the database.",
-        });
-    }
-    const member = {
-        nim: req.body.nim,
-        name: req.body.name,
-        majorId: foundMajor.id,
-    };
-    Member.update(member, {
-        where: { id },
-    })
-        .then((num) => {
-        if (num == 1) {
-          res.json({
-            message: "Member updated successfully.",
-            data: req.body,
-          });
-        } else {
-          res.json({
-            message: `Cannot update member with id=${id}. Maybe member was not found or req.body is empty!`,
-            data: req.body,
-          });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({
-            message: err.message || "Some error occurred while updating the member.",
-            data: null,
-         });
-    });
-};
-
-// DELETE: Menghapus data sesuai id yang dikirimkan
-exports.delete = (req, res) => {
-    const id = req.params.id;
-    Member.destroy({
-      where: { id },
-    })
-      .then((num) => {
-        if (num == 1) {
-          res.json({
-            message: "Member deleted successfully.",
-            data: req.body,
-          });
-        } else {
-          res.json({
-            message: `Cannot delete member with id=${id}. Maybe member was not found!`,
-            data: req.body,
-          });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: err.message || "Some error occurred while deleting the member.",
-          data: null,
-        });
-      });
-  };
-
-// BONUS ===> Mengambil data sesuai id yang dikirimkan
-exports.findOne = async (req, res) => {
     try {
-        const member = await Member.findByPk(req.params.id);
-    
-        if (!member) {
-          return res.status(404).json({
-            message: "Member not found.",
-            data: null,
-          });
+        const newMember = await Member.create(req.body);
+        res.status(201).json(newMember);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Get all members
+exports.findAll = async (req, res) => {
+    try {
+        const members = await Member.findAll();
+        res.json(members);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Get a specific member by ID
+exports.findOne = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const member = await Member.findByPk(id);
+        if (member) {
+            res.json(member);
+        } else {
+            res.status(404).json({ message: 'Member not found' });
         }
-    
-        return res.json({
-          message: "Member retrieved successfully.",
-          data: member,
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Update a member by ID
+exports.update = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [updated] = await Member.update(req.body, {
+            where: { id: id }
         });
-      } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-          message: "An error occurred while retrieving member.",
-          error: err.message,
-          data: null,
+        if (updated) {
+            const updatedMember = await Member.findByPk(id);
+            res.json(updatedMember);
+        } else {
+            res.status(404).json({ message: 'Member not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Delete a member by ID
+exports.delete = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deleted = await Member.destroy({
+            where: { id: id }
         });
-      }
-  };
+        if (deleted) {
+            res.json({ message: 'Member deleted' });
+        } else {
+            res.status(404).json({ message: 'Member not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
