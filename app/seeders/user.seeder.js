@@ -10,29 +10,35 @@ const User = db.user;
 exports.seedUsers = async () => {
     try {
         // Sync the User model with the database
-        await User.sync({ force: true });
+        await User.sync();
 
         // Hash passwords and create users
-        const users = [
-            {
-                name: 'Admin',
-                username: 'admin',
-                password: 'password', // Please note this is a plain text password
-            },
-            // Add more users as needed
-        ];
+        const adminExists = await User.findOne({ where: { username: 'admin' } });
 
-        const hashedUsers = await Promise.all(users.map(async (user) => {
-            const hashedPassword = await bcrypt.hash(user.password, 12);
-            return {
-                ...user,
-                password: hashedPassword,
-            };
-        }));
+        if (!adminExists) {
+            // Hash passwords and create users
+            const users = [
+                {
+                    name: 'Admin',
+                    username: 'admin',
+                    password: 'password', // Please note this is a plain text password
+                },
+                // Add more users as needed
+            ];
+            const hashedUsers = await Promise.all(users.map(async (user) => {
+                const hashedPassword = await bcrypt.hash(user.password, 12);
+                return {
+                    ...user,
+                    password: hashedPassword,
+                };
+            }));
 
-        // Bulk create seeded users
-        await User.bulkCreate(hashedUsers);
-        console.log('Users seeded successfully');
+            // Bulk create seeded users
+            await User.bulkCreate(hashedUsers);
+            console.log('Users seeded successfully');
+        }
+
+
     } catch (error) {
         console.error('Error seeding users:', error);
     }
