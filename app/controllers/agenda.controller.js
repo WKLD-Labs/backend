@@ -162,7 +162,7 @@ exports.delete = async (req, res) => {
         if (!agenda) {
             return res.status(404).json({ error: "Agenda empty" });
         }
-        await roomSchedule.destroy();
+        await agenda.destroy();
         return res.status(200).json({message: "Agenda cleared"});
     } catch (e) {
         res.status(500).json({ error: e.message });
