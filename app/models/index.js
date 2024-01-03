@@ -22,6 +22,7 @@ db.sequelize = sequelize;
 db.member = require('./member.model')(sequelize, Sequelize);
 db.lecturer = require('./lecturer.model')(sequelize, Sequelize);
 db.user = require('./user.model')(sequelize, Sequelize);
+db.agenda = require('./agenda.model')(sequelize, Sequelize);
 db.jadwal = require('./jadwal.model')(sequelize, Sequelize);
 db.document = require('./document.model')(sequelize, Sequelize);
 db.daftarPertemuan = require('./daftarPertemuan.model')(sequelize, Sequelize);
