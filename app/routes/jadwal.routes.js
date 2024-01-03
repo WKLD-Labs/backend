@@ -4,7 +4,6 @@ const router = require('express').Router();
 
 router.post('/', jadwalController.create);
 router.get('/', jadwalController.findAll);
-// router.put('/:id', jadwalController.update);
 router.delete('/:id', jadwalController.delete);
 
 module.exports = router;

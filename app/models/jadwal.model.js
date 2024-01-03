@@ -4,13 +4,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
         },
         participant: {
-            type: Sequelize.DATE,
+            type: Sequelize.STRING,
         },
-        time: {
+        date: {
             type: Sequelize.DATE,
         },
         status: {
-            type: Sequelize.TEXT,
+            type: Sequelize.BOOLEAN,
         },
         
         

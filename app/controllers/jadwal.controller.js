@@ -2,13 +2,15 @@ const {jadwal: Jadwal} = require("../models");
 
 exports.create = async (req, res) => {
     try {
-        const {name, start_date, end_date} = req.body;
-        console.log(name, start_date, end_date);
+        const {activity, participant,date, status, start_date, end_date} = req.body;
+        console.log(activity, participant, date, status, start_date, end_date);
         const newJadwal = await Jadwal.create({
-            name,
+            activity,
+            participant,
+            date: new Date(date),
+            status: true,
             start_date: new Date(start_date),
             end_date: new Date(end_date),
-            description
         });
         res.status(201).json(newJadwal);
     } catch (e) {
@@ -20,21 +22,6 @@ exports.findAll = async (req, res) => {
     try {
         const jadwal = await Jadwal.findAll();
         res.status(200).json(jadwal);
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-}
-
-exports.findOne = async (req, res) => {
-    try {
-        const {id} = req.params;
-        const jadwal = await Jadwal.findOne({
-            where: {id: id}
-        });
-        if (!jadwal) {
-            return res.status(404).json({ error: "Schedule not found" });
-        }
-        return res.status(200).json(jadwal);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
