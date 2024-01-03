@@ -5,6 +5,9 @@ exports.create = async (req, res) => {
   try {
     const { meetingname, speaker, datetime, meetinglink, description } = req.body;
     console.log(meetingname, speaker, datetime, meetinglink, description);
+    if(!meetingname || !speaker || !datetime || !meetinglink || !description){
+      return res.status(400).json({error: "Inputan belum lengkap"})
+    }
     const newDaftarPertemuan = await DaftarPertemuan.create({
       meetingname: meetingname,
       speaker: speaker,
