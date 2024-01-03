@@ -6,12 +6,15 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING,
         },
-    });
-    const Major = sequelize.define('major', {
-        name: {
+        faculty: {
             type: Sequelize.STRING,
         },
+        major: {
+            type: Sequelize.STRING,
+        },
+        entryYear: {
+            type: Sequelize.INTEGER,
+        },
     });
-    Member.belongsTo(Major, {foreignKey: 'majorId'});
     return Member;
 }
