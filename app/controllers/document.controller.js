@@ -17,6 +17,7 @@ exports.create = (req, res) => {
       description: req.body.description,
       status: true,
       return: null,
+      borrower: req.body.borrower,
     };
   
     // proses menyimpan kedalam database

@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
         return: {
             type: Sequelize.DATEONLY,
         },
+        borrower: {
+            type: Sequelize.STRING,
+        }
     });
     return Document;
 }
