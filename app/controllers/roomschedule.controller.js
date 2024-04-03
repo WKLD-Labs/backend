@@ -39,7 +39,7 @@ async function checkOverlap(start_date, end_date, excludeId = null) {
 
 exports.create = async (req, res) => {
     try {
-        const {name, start_date, end_date} = req.body;
+        const {name, description, start_date, end_date} = req.body;
         // validate, name, start_date, end_date required, start_date and end_date must be valid date
         if (!name || !start_date || !end_date) {
             return res.status(400).json({ error: "name, start date, end date are required" });
@@ -58,6 +58,7 @@ exports.create = async (req, res) => {
         }
         const newRoomSchedule = await RoomSchedule.create({
             name,
+            description,
             start_date: new Date(start_date),
             end_date: new Date(end_date)
         });
@@ -130,7 +131,7 @@ exports.findAll = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const {id} = req.params;
-        const {name, start_date, end_date} = req.body;
+        const {name, description, start_date, end_date} = req.body;
         // validate, name, start_date, end_date required, start_date and end_date must be valid date
         if (!name || !start_date || !end_date) {
             return res.status(400).json({ error: "name, start date, end date are required" });
@@ -153,6 +154,7 @@ exports.update = async (req, res) => {
             return res.status(404).json({ error: "Room Schedule not found" });
         }
         roomSchedule.name = name;
+        roomSchedule.description = description;
         roomSchedule.start_date = new Date(start_date);
         roomSchedule.end_date = new Date(end_date);
         await roomSchedule.save();
