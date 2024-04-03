@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - 8080:5500
+      - 5500:5500
     environment:
       - DB_HOST=db
       - DB_USER=root
