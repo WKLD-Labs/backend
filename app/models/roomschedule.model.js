@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) =>
     name: {
       type: Sequelize.STRING,
     },
+    description: {
+      type: Sequelize.TEXT('long')
+    },
     start_date: {
       type: Sequelize.DATE,
     },
