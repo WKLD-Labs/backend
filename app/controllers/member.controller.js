@@ -1,7 +1,6 @@
 const db = require("../models");
 const Member = db.member;
 
-// Create a new member
 exports.create = async (req, res) => {
     try {
         const newMember = await Member.create(req.body);
@@ -11,7 +10,6 @@ exports.create = async (req, res) => {
     }
 };
 
-// Get all members
 exports.findAll = async (req, res) => {
     try {
         const members = await Member.findAll();
@@ -21,7 +19,6 @@ exports.findAll = async (req, res) => {
     }
 };
 
-// Get a specific member by ID
 exports.findOne = async (req, res) => {
     const { id } = req.params;
     try {
@@ -36,7 +33,6 @@ exports.findOne = async (req, res) => {
     }
 };
 
-// Update a member by ID
 exports.update = async (req, res) => {
     const { id } = req.params;
     try {
