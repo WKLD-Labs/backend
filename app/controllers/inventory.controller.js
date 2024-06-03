@@ -1,11 +1,10 @@
-const db = require('../models'); // Assuming your Sequelize models are in the ../models directory
+const db = require('../models');
 const Inventory = db.inventory;
 
-// Controller functions
 exports.create = async (req, res) => {
     try {
-        const { name, unit, date, description } = req.body;
-        const newInventory = await Inventory.create({ name, unit, date, description });
+        const { name, unit, date, description, image } = req.body;
+        const newInventory = await Inventory.create({ name, unit, date, description, image });
         res.status(201).json({ inventory: newInventory });
     } catch (error) {
         res.status(500).json({ error: error.message });
